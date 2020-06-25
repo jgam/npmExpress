@@ -15,7 +15,6 @@
   "bugs": {
     "url": "https://github.com/jgam/npmExpress/issues"
   },
-  "type": "module",
   "homepage": "https://github.com/jgam/npmExpress#readme",
   "dependencies": {
     "@babel/core": "^7.10.3",
