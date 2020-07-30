@@ -322,7 +322,7 @@ var postEditProfile = /*#__PURE__*/function () {
             return _User["default"].findByIdAndUpdate(req.user.id, {
               name: name,
               email: email,
-              avatarUrl: file ? file.path : req.user.avatarUrl
+              avatarUrl: file ? file.location : req.user.avatarUrl
             });
 
           case 4:

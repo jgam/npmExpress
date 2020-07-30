@@ -33,15 +33,16 @@ var home = /*#__PURE__*/function () {
 
           case 3:
             videos = _context.sent;
+            console.log(videos);
             res.render("home", {
               pageTitle: "Home",
               videos: videos
             });
-            _context.next = 11;
+            _context.next = 12;
             break;
 
-          case 7:
-            _context.prev = 7;
+          case 8:
+            _context.prev = 8;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
             res.render("home", {
@@ -49,12 +50,12 @@ var home = /*#__PURE__*/function () {
               videos: []
             });
 
-          case 11:
+          case 12:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 7]]);
+    }, _callee, null, [[0, 8]]);
   }));
 
   return function home(_x, _x2) {
@@ -126,16 +127,16 @@ exports.getUpload = getUpload;
 
 var postUpload = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var _req$body, title, description, path, newVideo;
+    var _req$body, title, description, location, newVideo;
 
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _req$body = req.body, title = _req$body.title, description = _req$body.description, path = req.file.path;
+            _req$body = req.body, title = _req$body.title, description = _req$body.description, location = req.file.location;
             _context3.next = 3;
             return _Video["default"].create({
-              fileUrl: path,
+              fileUrl: location,
               title: title,
               description: description,
               creator: req.user.id
@@ -177,24 +178,25 @@ var videoDetail = /*#__PURE__*/function () {
 
           case 4:
             video = _context4.sent;
+            console.log(video);
             res.render("videoDetail", {
               pageTitle: video.title,
               video: video
             });
-            _context4.next = 11;
+            _context4.next = 12;
             break;
 
-          case 8:
-            _context4.prev = 8;
+          case 9:
+            _context4.prev = 9;
             _context4.t0 = _context4["catch"](1);
             res.redirect(_routes["default"].home);
 
-          case 11:
+          case 12:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[1, 8]]);
+    }, _callee4, null, [[1, 9]]);
   }));
 
   return function videoDetail(_x7, _x8) {
