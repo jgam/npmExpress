@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.postAddComment = exports.postRegisterView = exports.deleteVideo = exports.postEditVideo = exports.getEditVideo = exports.videoDetail = exports.postUpload = exports.getUpload = exports.search = exports.home = void 0;
+exports.postDelComment = exports.postAddComment = exports.postRegisterView = exports.deleteVideo = exports.postEditVideo = exports.getEditVideo = exports.videoDetail = exports.postUpload = exports.getUpload = exports.search = exports.home = void 0;
 
 var _routes = _interopRequireDefault(require("../routes"));
 
@@ -33,16 +33,15 @@ var home = /*#__PURE__*/function () {
 
           case 3:
             videos = _context.sent;
-            console.log(videos);
             res.render("home", {
               pageTitle: "Home",
               videos: videos
             });
-            _context.next = 12;
+            _context.next = 11;
             break;
 
-          case 8:
-            _context.prev = 8;
+          case 7:
+            _context.prev = 7;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
             res.render("home", {
@@ -50,12 +49,12 @@ var home = /*#__PURE__*/function () {
               videos: []
             });
 
-          case 12:
+          case 11:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 7]]);
   }));
 
   return function home(_x, _x2) {
@@ -178,25 +177,24 @@ var videoDetail = /*#__PURE__*/function () {
 
           case 4:
             video = _context4.sent;
-            console.log(video);
             res.render("videoDetail", {
               pageTitle: video.title,
               video: video
             });
-            _context4.next = 12;
+            _context4.next = 11;
             break;
 
-          case 9:
-            _context4.prev = 9;
+          case 8:
+            _context4.prev = 8;
             _context4.t0 = _context4["catch"](1);
             res.redirect(_routes["default"].home);
 
-          case 12:
+          case 11:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[1, 9]]);
+    }, _callee4, null, [[1, 8]]);
   }));
 
   return function videoDetail(_x7, _x8) {
@@ -222,7 +220,7 @@ var getEditVideo = /*#__PURE__*/function () {
           case 4:
             video = _context5.sent;
 
-            if (!(video.creator !== req.user.id)) {
+            if (!(String(video.creator) !== req.user.id)) {
               _context5.next = 9;
               break;
             }
@@ -318,7 +316,7 @@ var deleteVideo = /*#__PURE__*/function () {
           case 4:
             video = _context7.sent;
 
-            if (!(video.creator !== req.user.id)) {
+            if (!(String(video.creator) !== req.user.id)) {
               _context7.next = 9;
               break;
             }
@@ -428,31 +426,81 @@ var postAddComment = /*#__PURE__*/function () {
           case 7:
             newComment = _context9.sent;
             video.comments.push(newComment.id);
+            console.log(video.comments);
             video.save();
-            _context9.next = 15;
+            _context9.next = 16;
             break;
 
-          case 12:
-            _context9.prev = 12;
+          case 13:
+            _context9.prev = 13;
             _context9.t0 = _context9["catch"](1);
             res.status(400);
 
-          case 15:
-            _context9.prev = 15;
+          case 16:
+            _context9.prev = 16;
             res.end();
-            return _context9.finish(15);
+            return _context9.finish(16);
 
-          case 18:
+          case 19:
           case "end":
             return _context9.stop();
         }
       }
-    }, _callee9, null, [[1, 12, 15, 18]]);
+    }, _callee9, null, [[1, 13, 16, 19]]);
   }));
 
   return function postAddComment(_x17, _x18) {
     return _ref9.apply(this, arguments);
   };
-}();
+}(); //delete comment
+
 
 exports.postAddComment = postAddComment;
+
+var postDelComment = /*#__PURE__*/function () {
+  var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(req, res) {
+    var id, commentid;
+    return regeneratorRuntime.wrap(function _callee10$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            id = req.params.id, commentid = req.body.commentid;
+            _context10.prev = 1;
+            _context10.next = 4;
+            return _Video["default"].findById(id);
+
+          case 4:
+            _context10.next = 6;
+            return _Comment["default"].findOneAndRemove({
+              _id: commentid
+            });
+
+          case 6:
+            res.status(200);
+            _context10.next = 12;
+            break;
+
+          case 9:
+            _context10.prev = 9;
+            _context10.t0 = _context10["catch"](1);
+            res.status(400);
+
+          case 12:
+            _context10.prev = 12;
+            res.end();
+            return _context10.finish(12);
+
+          case 15:
+          case "end":
+            return _context10.stop();
+        }
+      }
+    }, _callee10, null, [[1, 9, 12, 15]]);
+  }));
+
+  return function postDelComment(_x19, _x20) {
+    return _ref10.apply(this, arguments);
+  };
+}();
+
+exports.postDelComment = postDelComment;

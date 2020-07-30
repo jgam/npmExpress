@@ -21,6 +21,10 @@ var _mongoose = _interopRequireDefault(require("mongoose"));
 
 var _expressSession = _interopRequireDefault(require("express-session"));
 
+var _path = _interopRequireDefault(require("path"));
+
+var _expressFlash = _interopRequireDefault(require("express-flash"));
+
 var _connectMongo = _interopRequireDefault(require("connect-mongo"));
 
 var _middlewares = require("./middlewares");
@@ -36,8 +40,6 @@ var _globalRouter = _interopRequireDefault(require("./routers/globalRouter"));
 var _apiRouter = _interopRequireDefault(require("./routers/apiRouter"));
 
 require("./passport");
-
-var _path = _interopRequireDefault(require("path"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -61,6 +63,7 @@ app.use((0, _expressSession["default"])({
     mongooseConnection: _mongoose["default"].connection
   })
 }));
+app.use((0, _expressFlash["default"])());
 app.use(_passport["default"].initialize());
 app.use(_passport["default"].session());
 app.use(_middlewares.localsMiddleware);
