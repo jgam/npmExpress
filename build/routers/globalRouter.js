@@ -30,11 +30,15 @@ globalRouter.get(_routes["default"].search, _videoController.search);
 globalRouter.get(_routes["default"].logout, _middlewares.onlyPrivate, _userController.logout);
 globalRouter.get(_routes["default"].gitHub, _userController.githubLogin);
 globalRouter.get(_routes["default"].githubCallback, _passport["default"].authenticate("github", {
+  successFlash: "Welcome",
+  failureFlash: "Can't login at this time",
   failureRedirect: "/login"
 }), _userController.postGithubLogIn);
 globalRouter.get(_routes["default"].me, _userController.getMe);
 globalRouter.get(_routes["default"].facebook, _userController.facebookLogin);
 globalRouter.get(_routes["default"].facebookCallback, _passport["default"].authenticate("facebook", {
+  successFlash: "Welcome",
+  failureFlash: "Can't login at this time",
   failureRedirect: "/login"
 }), _userController.postFacebookLogin);
 var _default = globalRouter;

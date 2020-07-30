@@ -5,7 +5,7 @@ const videoPreview = document.getElementById("jsVideoPreview");
 let streamObject;
 let videoRecorder;
 
-const handleVideoData = event => {
+const handleVideoData = (event) => {
   const { data: videoFile } = event;
   const link = document.createElement("a");
   link.href = URL.createObjectURL(videoFile);
@@ -16,9 +16,11 @@ const handleVideoData = event => {
 
 const stopRecording = () => {
   videoRecorder.stop();
+  streamObject.getVideoTracks()[0].stop();
   recordBtn.removeEventListener("click", stopRecording);
   recordBtn.addEventListener("click", getVideo);
-  recordBtn.innerHTML = "Start recording";
+  recordBtn.style.backgroundColor = "#3498db";
+  recordBtn.innerHTML = "Start Recording";
 };
 
 const startRecording = () => {
@@ -32,16 +34,18 @@ const getVideo = async () => {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: true,
-      video: { width: 1280, height: 720 }
+      video: { width: 1280, height: 720 },
     });
     videoPreview.srcObject = stream;
     videoPreview.muted = true;
     videoPreview.play();
+    recordBtn.style.backgroundColor = "red";
     recordBtn.innerHTML = "Stop recording";
     streamObject = stream;
     startRecording();
   } catch (error) {
-    recordBtn.innerHTML = "☹️ Cant record";
+    recordBtn.style.backgroundColor = "red";
+    recordBtn.innerHTML = "Can't record";
   } finally {
     recordBtn.removeEventListener("click", getVideo);
   }

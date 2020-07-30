@@ -16,7 +16,7 @@ var VideoSchema = new _mongoose["default"].Schema({
   },
   title: {
     type: String,
-    required: "Tilte is required"
+    required: "Title is required"
   },
   description: String,
   views: {

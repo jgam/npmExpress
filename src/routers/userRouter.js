@@ -3,9 +3,9 @@ import routes from "../routes";
 import {
   userDetail,
   getEditProfile,
-  getChangePassword,
   postEditProfile,
-  postChangePassword
+  getChangePassword,
+  postChangePassword,
 } from "../controllers/userController";
 import { onlyPrivate, uploadAvatar } from "../middlewares";
 

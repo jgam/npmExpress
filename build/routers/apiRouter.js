@@ -15,7 +15,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var apiRouter = _express["default"].Router();
 
-apiRouter.post(_routes["default"].registerView, _videoController.postRegisterView);
+apiRouter.post(_routes["default"].registerView, _videoController.postResiterView);
 apiRouter.post(_routes["default"].addComment, _videoController.postAddComment);
+apiRouter.post(_routes["default"].delComment, _videoController.postDelComment);
 var _default = apiRouter;
 exports["default"] = _default;

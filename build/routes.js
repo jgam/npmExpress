@@ -15,7 +15,7 @@ var USERS = "/users";
 var USER_DETAIL = "/:id";
 var EDIT_PROFILE = "/edit-profile";
 var CHANGE_PASSWORD = "/change-password";
-var ME = "/me"; // Videos
+var ME = "/me"; // Video
 
 var VIDEOS = "/videos";
 var UPLOAD = "/upload";
@@ -32,6 +32,7 @@ var FB_CALLBACK = "/auth/facebook/callback"; // API
 var API = "/api";
 var REGISTER_VIEW = "/:id/view";
 var ADD_COMMENT = "/:id/comment";
+var DEL_COMMENT = "/:id/del-comment";
 var routes = {
   home: HOME,
   join: JOIN,
@@ -76,9 +77,10 @@ var routes = {
   me: ME,
   facebook: FB,
   facebookCallback: FB_CALLBACK,
-  api: API,
+  aip: API,
   registerView: REGISTER_VIEW,
-  addComment: ADD_COMMENT
+  addComment: ADD_COMMENT,
+  delComment: DEL_COMMENT
 };
 var _default = routes;
 exports["default"] = _default;

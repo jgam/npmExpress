@@ -37,9 +37,9 @@ var _videoRouter = _interopRequireDefault(require("./routers/videoRouter"));
 
 var _globalRouter = _interopRequireDefault(require("./routers/globalRouter"));
 
-var _apiRouter = _interopRequireDefault(require("./routers/apiRouter"));
-
 require("./passport");
+
+var _apiRouter = _interopRequireDefault(require("./routers/apiRouter"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -70,6 +70,6 @@ app.use(_middlewares.localsMiddleware);
 app.use(_routes["default"].home, _globalRouter["default"]);
 app.use(_routes["default"].users, _userRouter["default"]);
 app.use(_routes["default"].videos, _videoRouter["default"]);
-app.use(_routes["default"].api, _apiRouter["default"]);
+app.use(_routes["default"].aip, _apiRouter["default"]);
 var _default = app;
 exports["default"] = _default;

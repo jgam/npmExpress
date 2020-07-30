@@ -8,6 +8,9 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 14px;
+  .flash-message__container {
+    z-index: 11;
+  }
 }
 
 main {
@@ -50,4 +53,9 @@ button.delete {
 button,
 input[type="submit"] {
   cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }

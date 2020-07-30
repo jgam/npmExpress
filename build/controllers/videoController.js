@@ -3,13 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.postDelComment = exports.postAddComment = exports.postRegisterView = exports.deleteVideo = exports.postEditVideo = exports.getEditVideo = exports.videoDetail = exports.postUpload = exports.getUpload = exports.search = exports.home = void 0;
+exports.postDelComment = exports.postAddComment = exports.postResiterView = exports.deleteVideo = exports.postEditVideo = exports.getEditVideo = exports.videoDetail = exports.postUpload = exports.getUpload = exports.search = exports.home = void 0;
 
 var _routes = _interopRequireDefault(require("../routes"));
 
 var _Video = _interopRequireDefault(require("../models/Video"));
 
 var _Comment = _interopRequireDefault(require("../models/Comment"));
+
+var _middlewares = require("../middlewares");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -27,7 +29,10 @@ var home = /*#__PURE__*/function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return _Video["default"].find({}).sort({
+            return _Video["default"].find({}).populate({
+              path: "creator",
+              model: "User"
+            }).sort({
               _id: -1
             });
 
@@ -81,6 +86,9 @@ var search = /*#__PURE__*/function () {
                 $regex: searchingBy,
                 $options: "i"
               }
+            }).populate({
+              path: "creator",
+              model: "User"
             });
 
           case 5:
@@ -117,7 +125,7 @@ var search = /*#__PURE__*/function () {
 exports.search = search;
 
 var getUpload = function getUpload(req, res) {
-  return res.render("upload", {
+  res.render("upload", {
     pageTitle: "Upload"
   });
 };
@@ -132,7 +140,8 @@ var postUpload = /*#__PURE__*/function () {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _req$body = req.body, title = _req$body.title, description = _req$body.description, location = req.file.location;
+            _req$body = req.body, title = _req$body.title, description = _req$body.description, location = req.file.location; // To Do: Upload and save video
+
             _context3.next = 3;
             return _Video["default"].create({
               fileUrl: location,
@@ -173,7 +182,13 @@ var videoDetail = /*#__PURE__*/function () {
             id = req.params.id;
             _context4.prev = 1;
             _context4.next = 4;
-            return _Video["default"].findById(id).populate("creator").populate("comments");
+            return _Video["default"].findById(id).populate({
+              path: "comments",
+              populate: {
+                path: "creator",
+                model: "User"
+              }
+            }).populate("creator");
 
           case 4:
             video = _context4.sent;
@@ -181,15 +196,16 @@ var videoDetail = /*#__PURE__*/function () {
               pageTitle: video.title,
               video: video
             });
-            _context4.next = 11;
+            _context4.next = 12;
             break;
 
           case 8:
             _context4.prev = 8;
             _context4.t0 = _context4["catch"](1);
+            console.log(_context4.t0);
             res.redirect(_routes["default"].home);
 
-          case 11:
+          case 12:
           case "end":
             return _context4.stop();
         }
@@ -200,7 +216,7 @@ var videoDetail = /*#__PURE__*/function () {
   return function videoDetail(_x7, _x8) {
     return _ref4.apply(this, arguments);
   };
-}(); // Edit Video
+}(); // Edit Detail
 
 
 exports.videoDetail = videoDetail;
@@ -268,7 +284,7 @@ var postEditVideo = /*#__PURE__*/function () {
             id = req.params.id, _req$body2 = req.body, title = _req$body2.title, description = _req$body2.description;
             _context6.prev = 1;
             _context6.next = 4;
-            return _Video["default"].findOneAndUpdate({
+            return _Video["default"].findByIdAndUpdate({
               _id: id
             }, {
               title: title,
@@ -303,7 +319,7 @@ exports.postEditVideo = postEditVideo;
 
 var deleteVideo = /*#__PURE__*/function () {
   var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
-    var id, video;
+    var id, video, regex, filePath, delFile;
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
@@ -315,38 +331,58 @@ var deleteVideo = /*#__PURE__*/function () {
 
           case 4:
             video = _context7.sent;
+            regex = /(http[s]?:\/\/)?([^\/\s]+\/)(.*)/;
+            _context7.next = 8;
+            return video.fileUrl.match(regex)[3];
+
+          case 8:
+            filePath = _context7.sent;
+            delFile = {
+              Bucket: process.env.AWS_BUCKET,
+              Key: filePath
+            };
 
             if (!(String(video.creator) !== req.user.id)) {
-              _context7.next = 9;
+              _context7.next = 14;
               break;
             }
 
             throw Error();
 
-          case 9:
-            _context7.next = 11;
-            return _Video["default"].findOneAndRemove({
+          case 14:
+            _context7.next = 16;
+            return _middlewares.s3.deleteObject(delFile, function (err) {
+              if (err) {
+                console.log(err);
+              } else {
+                console.log("The file has been removed");
+              }
+            }).promise();
+
+          case 16:
+            _context7.next = 18;
+            return _Video["default"].findByIdAndRemove({
               _id: id
             });
 
-          case 11:
-            _context7.next = 16;
+          case 18:
+            _context7.next = 23;
             break;
 
-          case 13:
-            _context7.prev = 13;
+          case 20:
+            _context7.prev = 20;
             _context7.t0 = _context7["catch"](1);
             console.log(_context7.t0);
 
-          case 16:
+          case 23:
             res.redirect(_routes["default"].home);
 
-          case 17:
+          case 24:
           case "end":
             return _context7.stop();
         }
       }
-    }, _callee7, null, [[1, 13]]);
+    }, _callee7, null, [[1, 20]]);
   }));
 
   return function deleteVideo(_x13, _x14) {
@@ -357,7 +393,7 @@ var deleteVideo = /*#__PURE__*/function () {
 
 exports.deleteVideo = deleteVideo;
 
-var postRegisterView = /*#__PURE__*/function () {
+var postResiterView = /*#__PURE__*/function () {
   var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(req, res) {
     var id, video;
     return regeneratorRuntime.wrap(function _callee8$(_context8) {
@@ -395,17 +431,17 @@ var postRegisterView = /*#__PURE__*/function () {
     }, _callee8, null, [[1, 10, 13, 16]]);
   }));
 
-  return function postRegisterView(_x15, _x16) {
+  return function postResiterView(_x15, _x16) {
     return _ref8.apply(this, arguments);
   };
 }(); // Add Comment
 
 
-exports.postRegisterView = postRegisterView;
+exports.postResiterView = postResiterView;
 
 var postAddComment = /*#__PURE__*/function () {
   var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(req, res) {
-    var id, comment, user, video, newComment;
+    var id, comment, user, video, newComment, commentId;
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
@@ -426,33 +462,36 @@ var postAddComment = /*#__PURE__*/function () {
           case 7:
             newComment = _context9.sent;
             video.comments.push(newComment.id);
-            console.log(video.comments);
+            commentId = newComment.id;
             video.save();
-            _context9.next = 16;
+            res.status(200).json({
+              commentId: commentId
+            });
+            _context9.next = 17;
             break;
 
-          case 13:
-            _context9.prev = 13;
+          case 14:
+            _context9.prev = 14;
             _context9.t0 = _context9["catch"](1);
             res.status(400);
 
-          case 16:
-            _context9.prev = 16;
+          case 17:
+            _context9.prev = 17;
             res.end();
-            return _context9.finish(16);
+            return _context9.finish(17);
 
-          case 19:
+          case 20:
           case "end":
             return _context9.stop();
         }
       }
-    }, _callee9, null, [[1, 13, 16, 19]]);
+    }, _callee9, null, [[1, 14, 17, 20]]);
   }));
 
   return function postAddComment(_x17, _x18) {
     return _ref9.apply(this, arguments);
   };
-}(); //delete comment
+}(); // Delete Comment
 
 
 exports.postAddComment = postAddComment;

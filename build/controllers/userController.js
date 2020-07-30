@@ -99,15 +99,12 @@ var postLogin = _passport["default"].authenticate("local", {
   failureRedirect: _routes["default"].login,
   successRedirect: _routes["default"].home,
   successFlash: "Welcome",
-  failureFlash: "Can't log in. Check email and/or password"
+  failureFlash: "Can't login. Check emaill and/or password"
 });
 
 exports.postLogin = postLogin;
 
-var githubLogin = _passport["default"].authenticate("github", {
-  successFlash: "Welcome",
-  failureFlash: "Can't log in at this time"
-});
+var githubLogin = _passport["default"].authenticate("github");
 
 exports.githubLogin = githubLogin;
 
@@ -177,10 +174,7 @@ var postGithubLogIn = function postGithubLogIn(req, res) {
 
 exports.postGithubLogIn = postGithubLogIn;
 
-var facebookLogin = _passport["default"].authenticate("facebook", {
-  successFlash: "Welcome",
-  failureFlash: "Can't log in at this time"
-});
+var facebookLogin = _passport["default"].authenticate("facebook");
 
 exports.facebookLogin = facebookLogin;
 
@@ -268,7 +262,13 @@ var getMe = /*#__PURE__*/function () {
           case 0:
             _context4.prev = 0;
             _context4.next = 3;
-            return _User["default"].findById(req.user.id).populate("videos");
+            return _User["default"].findById(req.user.id).populate({
+              path: "videos",
+              populate: {
+                path: "creator",
+                model: "User"
+              }
+            });
 
           case 3:
             user = _context4.sent;
@@ -309,7 +309,13 @@ var userDetail = /*#__PURE__*/function () {
             id = req.params.id;
             _context5.prev = 1;
             _context5.next = 4;
-            return _User["default"].findById(id).populate("videos");
+            return _User["default"].findById(id).populate({
+              path: "videos",
+              populate: {
+                path: "creator",
+                model: "User"
+              }
+            });
 
           case 4:
             user = _context5.sent;

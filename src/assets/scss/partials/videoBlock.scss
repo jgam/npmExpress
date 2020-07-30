@@ -4,8 +4,24 @@
     max-width: 100%;
   }
   .videoBlock__title {
-    font-size: 18px;
-    font-weight: 300;
+    font-weight: 600;
+    font-size: 15px;
     margin-bottom: 10px;
+  }
+  .videoBlock__information {
+    display: flex;
+    align-items: center;
+    .videoBlock__column:last-child {
+      margin-left: 10px;
+      .videoBlock__row {
+        display: flex;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .videoBlock {
+    margin-bottom: 20px;
   }
 }

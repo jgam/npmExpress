@@ -1,0 +1,22 @@
+.arrow-up {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  width: 70px;
+  height: 70px;
+  font-size: 50px;
+  color: white;
+  background-color: darkorange;
+  border-radius: 50%;
+  outline: none;
+}
+
+@media screen and (max-width: 768px) {
+  .arrow-up {
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    right: 20px;
+    bottom: 20px;
+  }
+}

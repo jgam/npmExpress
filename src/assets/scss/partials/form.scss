@@ -3,10 +3,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 100px;
   form {
     width: 100%;
     max-width: 320px;
     margin-bottom: 50px;
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
     input:not([type="file"]),
     .fileUpload {
       display: block;

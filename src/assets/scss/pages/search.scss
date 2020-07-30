@@ -1,0 +1,33 @@
+.search__header,
+.search__videos {
+  padding: 0 30px;
+}
+
+.search__header {
+  h3 {
+    font-size: 30px;
+    font-weight: 600;
+  }
+  margin-bottom: 30px;
+  padding-top: 100px;
+}
+
+.search__videos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: minmax(300px, auto);
+  gap: 30px 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .search__videos {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search__header {
+    h3 {
+      font-size: 20px;
+    }
+  }
+}

@@ -10,13 +10,14 @@ _dotenv["default"].config();
 
 _mongoose["default"].connect(process.env.PRODUCTION ? process.env.MONGO_URL_PROD : process.env.MONGO_URL, {
   useNewUrlParser: true,
-  useFindAndModify: false
+  useFindAndModify: false,
+  useUnifiedTopology: true
 });
 
 var db = _mongoose["default"].connection;
 
 var handleOpen = function handleOpen() {
-  return console.log("✅  Connected to DB");
+  return console.log("✅ Connected to DB");
 };
 
 var handleError = function handleError(error) {

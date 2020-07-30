@@ -4,15 +4,15 @@ import routes from "../routes";
 import { home, search } from "../controllers/videoController";
 import {
   getJoin,
-  getLogin,
-  logout,
   postJoin,
+  getLogin,
   postLogin,
+  logout,
   githubLogin,
   postGithubLogIn,
   getMe,
   facebookLogin,
-  postFacebookLogin
+  postFacebookLogin,
 } from "../controllers/userController";
 import { onlyPublic, onlyPrivate } from "../middlewares";
 
@@ -32,7 +32,11 @@ globalRouter.get(routes.gitHub, githubLogin);
 
 globalRouter.get(
   routes.githubCallback,
-  passport.authenticate("github", { failureRedirect: "/login" }),
+  passport.authenticate("github", {
+    successFlash: "Welcome",
+    failureFlash: "Can't login at this time",
+    failureRedirect: "/login",
+  }),
   postGithubLogIn
 );
 
@@ -41,7 +45,11 @@ globalRouter.get(routes.me, getMe);
 globalRouter.get(routes.facebook, facebookLogin);
 globalRouter.get(
   routes.facebookCallback,
-  passport.authenticate("facebook", { failureRedirect: "/login" }),
+  passport.authenticate("facebook", {
+    successFlash: "Welcome",
+    failureFlash: "Can't login at this time",
+    failureRedirect: "/login",
+  }),
   postFacebookLogin
 );
 

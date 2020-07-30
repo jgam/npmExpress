@@ -19,13 +19,13 @@ _passport["default"].use(_User["default"].createStrategy());
 _passport["default"].use(new _passportGithub["default"]({
   clientID: process.env.GH_ID,
   clientSecret: process.env.GH_SECRET,
-  callbackURL: process.env.PRODUCTION ? "https://polar-sea-27980.herokuapp.com".concat(_routes["default"].githubCallback) : "http://localhost:4000".concat(_routes["default"].githubCallback)
+  callbackURL: process.env.PRODUCTION ? "https://still-beyond-74200.herokuapp.com".concat(_routes["default"].githubCallback) : "http://localhost:4000".concat(_routes["default"].githubCallback)
 }, _userController.githubLoginCallback));
 
 _passport["default"].use(new _passportFacebook["default"]({
   clientID: process.env.FB_ID,
   clientSecret: process.env.FB_SECRET,
-  callbackURL: "https://afraid-baboon-46.localtunnel.me".concat(_routes["default"].facebookCallback),
+  callbackURL: process.env.PRODUCTION ? "https://still-beyond-74200.herokuapp.com".concat(_routes["default"].facebookCallback) : "http://localhost:4000".concat(_routes["default"].facebookCallback),
   profileFields: ["id", "displayName", "photos", "email"],
   scope: ["public_profile", "email"]
 }, _userController.facebookLoginCallback));

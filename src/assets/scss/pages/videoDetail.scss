@@ -2,19 +2,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 100px;
   .video__info {
     width: 100%;
-    max-width: 850px;
-    margin-top: 25px;
+    max-width: 550px;
+    margin-top: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 16px;
     button {
       width: 100px;
       margin-bottom: 25px;
     }
     .video__author {
+      display: flex;
+      align-items: center;
+      img {
+        margin-right: 12px;
+      }
       a {
         color: #3498db;
       }
     }
+
     .video__title,
     .video__views,
     .video__description {
@@ -24,39 +33,80 @@
     .video__title {
       font-size: 22px;
       font-weight: 300;
+      border-bottom: 3px solid rgba(0, 0, 0, 0.1);
+      padding: 20px 0 8px 0;
     }
     .video__views {
       font-size: 14px;
+      color: gray;
     }
     .video__description {
       font-size: 16px;
     }
   }
   .video__comments {
+    width: 45%;
     margin-top: 25px;
-    text-align: center;
+
     .video__comment-number {
       font-size: 18px;
     }
     .add__comment {
+      display: flex;
+      align-items: center;
       margin-top: 25px;
-      width: 100%;
+      img {
+        margin-right: 12px;
+      }
+      span {
+        color: gray;
+      }
       input {
         width: 100%;
+        margin-top: 5px;
       }
     }
     .video__comments-list {
+      width: 100%;
       margin-top: 50px;
       li {
-        background-color: #3498db;
-        color: white;
-        padding: 15px;
-        border-radius: 20px;
-        border-bottom-left-radius: 0px;
+        display: flex;
+        align-items: center;
+        img {
+          margin-right: 12px;
+        }
+        .video__comments-box {
+          width: 100%;
+          background-color: white;
+          padding: 15px;
+          border-radius: 5px;
+          margin-right: 5px;
+          span {
+            color: gray;
+          }
+          i {
+            color: red;
+            cursor: pointer;
+          }
+          p {
+            font-size: 18px;
+          }
+        }
         &:not(:last-child) {
           margin-bottom: 15px;
         }
       }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .video-detail__container {
+    .video__info {
+      padding: 0 20px;
+    }
+    .video__comments {
+      width: 90%;
     }
   }
 }

@@ -8,32 +8,44 @@ block content
         })
         .video__info
             if loggedUser && video.creator.id === loggedUser.id
-                a(href=routes.editVideo(video.id))
+                a(href=routes.editVideo(video.id)) 
                     button Edit video
             h5.video__title=video.title
             p.video__description=video.description
             if video.views === 1
-                span.video__views 1 view
-            else 
-                span.video__views #{video.views} views
+                span.video__views 1 view • #{moment(video.createdAt, "YYYYMMDD").fromNow()}
+            else
+                span.video__views #{video.views} views • #{moment(video.createdAt, "YYYYMMDD").fromNow()}
             .video__author
-                |Uploaded by 
+                img.s-avatar(src=video.creator.avatarUrl)
+                |Upload by&nbsp;
                 a(href=routes.userDetail(video.creator.id))=video.creator.name
         .video__comments
             if video.comments.length === 1
                 span.video__comment-number
                     span#jsCommentNumber 1
-                    |  comment
+                    |&nbsp;comment
             else
                 span.video__comment-number
                     span#jsCommentNumber=video.comments.length
-                    |  comments
-            form.add__comment#jsAddComment
-                input(type="text", placeholder="Add a comment")
+                    |&nbsp;comments
+            if loggedUser
+                form.add__comment#jsAddComment
+                    img.s-avatar(src=loggedUser.avatarUrl)
+                    .add__comment-block
+                        span=loggedUser.name
+                        input(type="text", placeholder="Add a comment")
             ul.video__comments-list#jsCommentList
                 each comment in video.comments.reverse()
                     li
-                        span=comment.text
-                        button delete comments
-                        //- a(href=routes.deleteComments(comment.id))
-                        //-     button delete comments
+                        img.s-avatar(src=comment.creator.avatarUrl)
+                        .video__comments-box
+                            .comment__colume
+                                span=comment.creator.name
+                                span &nbsp;•&nbsp;
+                                span #{moment(comment.createdAt,"YYYYMMDD").fromNow()}
+                                span &nbsp;
+                                if loggedUser && comment.creator.id == loggedUser.id
+                                    i.fas.fa-trash-alt.del__Comment(data-commentid=comment.id)
+                            .comment__colume
+                                p=comment.text
