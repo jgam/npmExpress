@@ -1,3 +1,4 @@
+  
 import express from "express";
 import morgan from "morgan";
 import helmet from "helmet";
@@ -6,6 +7,8 @@ import bodyParser from "body-parser";
 import passport from "passport";
 import mongoose from "mongoose";
 import session from "express-session";
+import path from "path";
+import flash from "express-flash";
 import MongoStore from "connect-mongo";
 import { localsMiddleware } from "./middlewares";
 import routes from "./routes";
@@ -15,7 +18,7 @@ import globalRouter from "./routers/globalRouter";
 import apiRouter from "./routers/apiRouter";
 
 import "./passport";
-import path from "path";
+
 const app = express();
 
 const CokieStore = MongoStore(session);
@@ -36,6 +39,7 @@ app.use(
     store: new CokieStore({ mongooseConnection: mongoose.connection })
   })
 );
+app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
